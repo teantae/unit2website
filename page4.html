@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empowerment</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: hsl(12, 100%, 91%); /* Light green background */
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .empowerment {
+            max-width: 200%; /* Slightly smaller size */
+            max-height: 90%;
+            object-fit: contain;
+            cursor: pointer; /* Indicates interactivity */
+        }
+
+        .text {
+            font-family: 'Futura', sans-serif; /* Futura font */
+            font-size: 24px;
+            color: #333; /* Dark gray */
+            margin-top: 10px; /* Spacing below the GIF */
+            text-align: center;
+        }
+
+        .star {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #23a36c; /* Color of the star */
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: fade-out 1s ease-out forwards;
+            pointer-events: none; /* Prevent interference with clicks */
+        }
+
+        @keyframes fade-out {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <img class="empowerment" src="empowerment.gif" alt="Empowerment GIF">
+    <div class="text">Click for a spark of empowerment</div>
+
+    <script>
+        // Redirect to page5.html when clicking anywhere on the page
+        document.body.addEventListener('click', () => {
+            window.location.href = 'page5.html';
+        });
+
+        // Add star effect when clicking on the GIF
+        const empowermentGif = document.querySelector('.empowerment');
+
+        empowermentGif.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent triggering the body click event
+
+            const star = document.createElement('div');
+            star.className = 'star';
+
+            // Position the star at the click location
+            star.style.left = `${event.clientX - 20}px`;
+            star.style.top = `${event.clientY - 20}px`;
+
+            document.body.appendChild(star);
+
+            // Remove the star after animation
+            star.addEventListener('animationend', () => {
+                star.remove();
+            });
+        });
+    </script>
+</body>
+</html>

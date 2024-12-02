@@ -1,0 +1,57 @@
+body {
+    background: rgb(252, 255, 190);
+}
+
+img{
+width:1000px;
+height:auto;
+}
+
+.cereal{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.bowl{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-40%,-30%);
+}
+
+
+.cereal-box{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+p{
+    font-family: futura;
+    font-size: 1500px;
+    margin: 0; /* Remove margin to avoid unexpected spacing */
+    position: absolute; /* Position element absolutely */
+    bottom: 20px; /* Distance from the bottom of the page */
+    left: 50%; /* Center the text horizontally */
+    transform: translateX(-100%); /* Offset to center text accurately */
+    text-align: center; /* Ensure text is centered if multiline */
+}
+
+p{
+    p {
+       background: pink;
+        color: rgb(72, 84, 214);
+    }
+}
+
+p{
+    font-family: futura;
+    font-size: 1500px;  
+}
+
+body{
+    background-color: #f8f4e3;
+}

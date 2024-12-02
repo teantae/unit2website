@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Charms!</title>
+    <style>
+        body {
+            background-color: hwb(148 39% 17%); /* Set background color to green */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default margin */
+            cursor: pointer; /* Visual cue for clickable page */
+        }
+
+        .container {
+            position: relative; /* Create a context for ripple */
+        }
+
+        .gif1 {
+            width: 1000px; /* Set the width of the GIF */
+            height: auto; /* Maintain aspect ratio */
+            pointer-events: none; /* Allow cursor interaction for the ripple effect */
+        }
+
+        /* Ripple effect */
+        .ripple-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            overflow: hidden; /* Ensure ripple doesn’t overflow */
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            background: rgba(255, 255, 255, 0.5); /* White ripple */
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4); /* Grow the ripple */
+                opacity: 0; /* Fade out */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="gif1" src="gif1.gif" alt="Cereal GIF">
+        <div class="ripple-area" id="rippleArea"></div>
+    </div>
+
+    <script>
+        const rippleArea = document.getElementById('rippleArea');
+
+        // Ripple effect on mousemove
+        rippleArea.addEventListener('mousemove', (event) => {
+            const ripple = document.createElement('span');
+            const rect = rippleArea.getBoundingClientRect();
+
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            ripple.style.width = ripple.style.height = '100px'; // Ripple size
+            ripple.style.left = `${x - 50}px`; // Center ripple horizontally
+            ripple.style.top = `${y - 50}px`; // Center ripple vertically
+
+            ripple.className = 'ripple';
+            rippleArea.appendChild(ripple);
+
+            // Remove ripple after animation
+            ripple.addEventListener('animationend', () => {
+                ripple.remove();
+            });
+        });
+
+        // Redirect to page4.html when clicking anywhere on the page
+        document.body.addEventListener('click', () => {
+            window.location.href = 'page4.html';
+        });
+    </script>
+</body>
+</html>
+

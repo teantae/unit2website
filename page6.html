@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placebo effect</title>
+    <style>
+        body {
+            background-color: rgb(254, 255, 175); /* Red background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Style for wobbly text */
+        .text {
+            font-family: 'Futura', sans-serif;
+            font-size: 50px;
+            color: #333;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        /* Repeating text effect */
+        .text span {
+            display: inline-block;
+            animation: wobble 0.1s infinite alternate;
+        }
+
+        @keyframes wobble {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(10px);
+            }
+        }
+
+        /* Style for placebo gif */
+        .placebo {
+            width: 1200px; /* Smaller size for placebo.gif */
+            position: absolute;
+            bottom: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        /* Style for blob divs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #93f;
+            z-index: -1; /* Ensure blobs are behind other elements */
+        }
+    </style>
+    <script type="text/javascript">
+        var colsel = new Array('#fff', '#edf', '#dbf', '#c9f', '#b7f', '#a5f', '#93f'); // colours for animation
+        var speed = 100; // speed of animation, lower is faster
+        
+        var div;
+        var ring = new Array();
+        var swide = window.innerWidth;
+        var shigh = window.innerHeight;
+        var count = 0;
+        var roun = new Array(0, 0, 0);
+        var nour = new Array(0, 0, 0);
+
+        window.onload = function () {
+            whizzy();
+        };
+
+        function whizzy() {
+            var i, dvs;
+            div = document.createElement('div');
+            dvs = div.style;
+            dvs.position = 'fixed';
+            dvs.left = '50%';
+            dvs.top = '50%';
+            dvs.width = '1px';
+            dvs.height = '1px';
+            dvs.overflow = 'visible';
+            dvs.zIndex = '-1';
+            document.body.appendChild(div);
+
+            for (i = 0; i < 50; i++) ring['col' + i] = new Array();
+
+            add_blobs();
+        }
+
+        function add_blobs() {
+            var f, h, i, j, k, w;
+            for (i = 15; i < swide * 1.5;) {
+                f = Math.floor(5 + 45 * (i / swide));
+                ring['row' + count] = new Array();
+                for (j = 0; j < 50; j++) {
+                    h = -f / 8 + i / 2 * Math.cos(Math.PI * j / 25);
+                    w = f / 5 + i / 2 * Math.sin(Math.PI * j / 25);
+                    if (h - f / 2 > shigh / 2 || h + f / 2 < -shigh / 2 || w - f / 2 > swide / 2 || w + f / 2 < -swide / 2) continue;
+                    k = document.createElement('div');
+                    k.className = 'blob'; // Add class for styling blobs
+                    k.style.left = w - f / 2 + 'px';
+                    k.style.top = h - f / 2 + 'px';
+                    k.style.width = f + 'px';
+                    k.style.height = f + 'px';
+                    ring['row' + count][j] = k;
+                    ring['col' + j][count] = k;
+                    div.appendChild(k);
+                }
+                count++;
+                i += 2.2 * f;
+            }
+            nour[0] = nour[1] = nour[2] = count;
+            setTimeout('zoomer(0)', speed);
+            setTimeout('zoomer(1)', speed * count / 3);
+            setTimeout('zoomer(2)', speed * 2 * count / 3);
+        }
+
+        function zoomer(n) {
+            for (var i = 0; i < 50; i++) {
+                var tc = Math.abs(-nour[n] + roun[n]) % (count - 2);
+                if (tc < colsel.length && ring['col' + i][roun[n]]) {
+                    ring['col' + i][roun[n]].style.backgroundColor = colsel[tc];
+                }
+            }
+            if (++roun[n] == count) {
+                roun[n] = 0;
+                nour[n]++;
+                setTimeout('zoomer(' + n + ')', speed);
+            } else zoomer(n);
+        }
+    </script>
+</head>
+<body>
+    <!-- Wobbly Text -->
+    <div class="text" id="wobble"></div>
+
+    <!-- Placebo Image -->
+    <img class="placebo" src="placebo.gif" alt="placebo">
+</body>
+</html>
